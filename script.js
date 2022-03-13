@@ -25,19 +25,26 @@ function generatePassword(){
     if(window.confirm("Should the password contain numbers?"))
       characterPool+=numbers;
     else if(characterPool == "")
-      window.alert("please pick at least one set of characters to generate your password")
+      window.alert("please pick at least one set of characters to generate your password");
   }
+  
+  return fillPassword(characterPool, uppercaseChance);
+}
 
-//fills password with possible characters
+  //fills password with possible characters
+function fillPassword(characterPool, uppercaseChance){
   var password ="";
   for(i=0;i<length;i++){
     var charPos = Math.floor(Math.random() * characterPool.length);
     var newChar = characterPool.charAt(charPos);
+    
     var caseChanceResult = Math.random();
     if(caseChanceResult<uppercaseChance)
       newChar= newChar.toUpperCase();
+
     password += newChar;
   }
+
   return password;
 }
 
