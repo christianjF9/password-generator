@@ -12,39 +12,29 @@ function generatePassword(){
   //generate possible characters
   var characterPool = "";
   while (characterPool == ""){
-   //0 to not include uppercase 0.5 to include
-     var lowercaseThreshold = 0;
-    //1 to not include uppercase 0.5 to include
-   var uppercaseThreshold = 0.5;
+    var hasLowerCase = window.confirm("Should the password contain lowercase letters?");
+    var hasUpperCase = window.confirm("Should the password contain uppercase letters?");
+    var uppercaseChance = 0;
  
-    if(window.confirm("Should the password contain letters?")){
+    if(hasLowerCase||hasUpperCase){
       characterPool += alphabet;
-      while(lowercaseThreshold == 0 && uppercaseThreshold==0.5){
-        if(window.confirm("Should the password contain lowercase letters?"))
-          lowercaseThreshold = 0.5;
-        if(window.confirm("Should the password contain uppercase letters?"))
-          uppercaseThreshold = 1;
-        else if(lowercaseThreshold == 0&& uppercaseThreshold==0.5)
-          window.alert("please pick uppercase lowercase or both");
-      }
+      uppercaseChance = hasUpperCase*(1 - (hasLowerCase *0.5));
     }
     if(window.confirm("Should the password contain special characters?"))
       characterPool+=specialcharacters;
     if(window.confirm("Should the password contain numbers?"))
       characterPool+=numbers;
-    else if(characterPool = "")
+    else if(characterPool == "")
       window.alert("please pick at least one set of characters to generate your password")
   }
+
 //fills password with possible characters
   var password ="";
   for(i=0;i<length;i++){
     var charPos = Math.floor(Math.random() * characterPool.length);
     var newChar = characterPool.charAt(charPos);
     var caseChanceResult = Math.random();
-    console.log(caseChanceResult);
-    console.log(lowercaseThreshold);
-    console.log(uppercaseThreshold);
-    if(caseChanceResult>lowercaseThreshold&&caseChanceResult<uppercaseThreshold)
+    if(caseChanceResult<uppercaseChance)
       newChar= newChar.toUpperCase();
     password += newChar;
   }
@@ -62,12 +52,11 @@ function writePassword() {
 
 function askLength(){
   length = prompt("How long do you want your password? (must be between 8 and 128 characters)");
-  console.log(length.is);
   if (isNaN(length)){
     alert("Please enter a number");
     length = askLength();
   } else if (length<8||length>128){
-    alert("Password must be between 8 and 128 characters!")
+    alert("Password must be between 8 and 128 characters")
     length = askLength();
   }
   return length;
